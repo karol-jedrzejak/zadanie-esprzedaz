@@ -35,7 +35,6 @@ class PetsController extends Controller
     public function store(StorePetsRequest $request)
     {
         $request->validated();
-
         $data = $request->post();
         $response = $this->PetsRepository->add($data);
 
@@ -87,7 +86,6 @@ class PetsController extends Controller
     public function update(UpdatePetsRequest $request, int $id)
     {
         $request->validated();
-
         $data = $request->post();
         $response = $this->PetsRepository->update($data, $id);
 

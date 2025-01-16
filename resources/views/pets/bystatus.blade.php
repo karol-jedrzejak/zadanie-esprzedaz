@@ -63,7 +63,7 @@
                         <div>@if(isset($item->id)){{$item->id}}@endif - @if(isset($item->name)){{$item->name}}@endif</div>
                         @endforeach
                     </th>
-                    @if(isset($item->status))
+                    @if(isset($pet->status))
                     <th>{{$pet->status}}</th>
                     @else
                     <th></th>

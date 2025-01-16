@@ -10,93 +10,68 @@
             <input name="_method" type="hidden" value="PUT">
             <input name="id" type="hidden" value="{{$pet->id}}">
             <!-- X-XSRF-TOKEN -->
-
-            {{--
-            https://laravel.io/forum/04-23-2015-validation-form-with-dynamic-inputs
-
-            <div class="mb-3 col-12">
-                <label for="company" class="form-label">Firma</label>
-                <select class="form-select" id="company" name="company" onchange="updateEmployeesList();" required>
-                        <option value=''>--- Wybierz Firmę ---</option>
-                    @foreach ($companies as $company)
-                        <option
-                        @if(old('company') == $company->id) selected='selected' @endif
-                        value={{$company->id}}>{{$company->name_short}} [{{$company->name_complete}}]</option>
-                    @endforeach
-                </select>
+            <div class="form-group mb-2">
+                <label for="name" class="mb-2">Name</label>
+                <input type="text" class="form-control" name="name" id="name"
+                value="{{ old('name', $pet->name ?? null) }}"
+                >
+                @error('name')
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
             </div>
-
-            <div class="mb-3 col-10" id="employee_col_0">
-                <label for="employee_0" id="employee_label_0" class="form-label">Pracownik 1</label>
-                <select class="form-select" id="employee_0" name="employee_[0]" required>
-                    <option value=''>--- Wybierz Pracownika ---</option>
-                    @foreach ($employees as $employee)
-                        <option
-                        @if(old('employee_[0]') == $employee->id) selected='selected' @endif
-                        value={{$employee->id}} data-company={{$employee->company}}>{{$employee->name}} {{$employee->surname}}</option>
-                    @endforeach
-                </select>
-            </div>
-
-
-
-            <div class="mb-3 col-2">
-                <label for="employee_add" class="form-label">&nbsp;</label>
-                <button id="employee_add" type="button" class="btn btn-primary w-100" onclick="addEmployee();">Dodaj</button>
-            </div>
-
-            <div class="mb-3 col-2" id="employess_col_del_0" hidden>
-                <label for="employee_del_0" id="employee_del_label_0" class="form-label">&nbsp;</label>
-                <button id="employee_del_0" type="button" class="btn btn-danger w-100" onclick="">Usuń</button>
-            </div>
-            --}}
-
-
-
             <div class="form-group mb-2">
                 <label for="cat_id" class="mb-2">Category ID</label>
-                <input type="number" class="form-control" name="cat_id" id="cat_id" value="{{$pet->category->id}}">
+                <input type="number" class="form-control" name="cat_id" id="cat_id"
+                value="{{ old('cat_id', $pet->category->id ?? null) }}">
                 @error('cat_id')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group mb-2">
                 <label for="cat_name" class="mb-2">Category Name</label>
-                <input type="text" class="form-control" name="cat_name" id="cat_name" value="{{$pet->category->name}}">
+                <input type="text" class="form-control" name="cat_name" id="cat_name"
+                value="{{ old('cat_name', $pet->category->name ?? null) }}"
+                >
                 @error('cat_name')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="form-group mb-2">
-                <label for="name" class="mb-2">Name</label>
-                <input type="text" class="form-control" name="name" id="name" value="{{$pet->name}}">
-                @error('name')
-                    <div class="invalid-feedback d-block">{{ $message }}</div>
+            @foreach ($pet->photoUrls as $key => $item)
+            <div class="form-group mb-2" id="photos{{$key}}">
+                <label for="photo_url{{$key}}" class="mb-2">Photo URL [{{$key}}]</label>
+                <input type="text" class="form-control" name="photo_url[{{$key}}]" id="photo_url{{$key}}"
+                value="{{ old('photo_url.'.$key, $item ?? null) }}"
+                >
+                @error('photo_url.'.$key )
+                <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="form-group mb-2">
-                <label for="photo_url" class="mb-2">Photo URL</label>
-                <input type="text" class="form-control" name="photo_url" id="photo_url" @if($pet->photoUrls) value="{{ $pet->photoUrls[0]}}" @else value="" @endif>
+            @endforeach
+            @foreach ($pet->tags as $key => $tag)
+            <div class="d-flex" id="tags_id{{$key}}">
+                <div class="form-group mb-2 me-2">
+                    <label for="tags_id{{$key}}" class="mb-2">Tags[{{$key}}] ID</label>
+                    <input type="number" class="form-control" name="tags_id[{{$key}}]" id="tags_id{{$key}}"
+                    value="{{ old('tags_id.'.$key, $tag->id ?? null) }}">
+                    @error('tags_id[{{$key}}]')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group mb-2 w-100">
+                    <label for="tags_name{{$key}}" class="mb-2">Tags[{{$key}}] Name</label>
+                    <input type="text" class="form-control" name="tags_name[{{$key}}]" id="tags_name{{$key}}"
+                    value="{{ old('tags_name.'.$key, $tag->name ?? null) }}">
+                    @error('tags_name[{{$key}}]')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
-            <div class="form-group mb-2">
-                <label for="tags_id" class="mb-2">Tags ID</label>
-                <input type="number" class="form-control" name="tags_id" id="tags_id" value="{{$pet->tags[0]->id}}">
-                @error('tags_id')
-                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="form-group mb-2">
-                <label for="tags_name" class="mb-2">Tags Name</label>
-                <input type="text" class="form-control" name="tags_name" id="tags_name" value="{{$pet->tags[0]->name}}">
-                @error('tags_name')
-                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                @enderror
-            </div>
+            @endforeach
             <div class="form-group mb-2">
                 <label for="status" class="mb-2">Status</label>
                 <select class="form-select" id="status" name="status">
                     @foreach ($status_types as $item)
-                        <option @if($pet->status == $item) selected="selected" @endif value="{{$item}}">{{$item}}</option>
+                        <option @if(old('status',$pet->status) == $item) selected="selected" @endif value="{{$item}}">{{$item}}</option>
                     @endforeach
                 </select>
             </div>

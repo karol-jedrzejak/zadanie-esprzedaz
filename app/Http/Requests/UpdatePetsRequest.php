@@ -21,23 +21,26 @@ class UpdatePetsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
             'cat_id' => 'required',
             'cat_name' => 'required',
-            'tags_id' => 'required',
-            'tags_name' => 'required',
+            'photo_url.*' => 'required',
         ];
+
+        return $rules;
     }
 
     public function messages(): array
     {
-        return [
+        $messages = [
             'name.required' => 'Wprowadź imię.',
-            'cat_id.required' => 'Wprowadź id kategori.',
-            'cat_name.required' => 'Wprowadź nazwę kategori.',
-            'tags_id.required' => 'Wprowadź id tagu.',
-            'tags_name.required' => 'Wprowadź nazwę tagu.',
+            'cat_id.required' => 'Wprowadź nr id.',
+            'cat_name.required' => 'Wprowadź nazwę kategorii.',
+            'photo_url.*.required' => 'Wprwadź adres URL.',
         ];
+
+
+        return $messages;
     }
 }

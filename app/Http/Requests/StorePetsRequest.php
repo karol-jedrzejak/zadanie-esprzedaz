@@ -23,10 +23,9 @@ class StorePetsRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'cat_id' => 'required|integer',
+            'cat_id' => 'required',
             'cat_name' => 'required',
-            'tags_id' => 'required|integer',
-            'tags_name' => 'required',
+            'photo_url.*' => 'required',
         ];
     }
 
@@ -34,12 +33,9 @@ class StorePetsRequest extends FormRequest
     {
         return [
             'name.required' => 'Wprowadź imię.',
-            'cat_id.required' => 'Wprowadź id kategori.',
-            'cat_id.integer' => 'Wartość musi być typu integer.',
-            'cat_name.required' => 'Wprowadź nazwę kategori.',
-            'tags_id.required' => 'Wprowadź id tagu.',
-            'tags_id.integer' => 'Wartość musi być typu integer.',
-            'tags_name.required' => 'Wprowadź nazwę tagu.',
+            'cat_id.required' => 'Wprowadź nr id.',
+            'cat_name.required' => 'Wprowadź nazwę kategorii.',
+            'photo_url.*.required' => 'Wprwadź adres URL.',
         ];
     }
 }

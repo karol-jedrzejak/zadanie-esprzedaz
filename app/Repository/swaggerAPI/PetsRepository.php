@@ -44,19 +44,39 @@ class PetsRepository implements PetsRepositoryInterface
 
     public function add($data)
     {
-        $pet = new Pets;
 
+        $pet = new Pets;
         $pet->id = 0;
         $pet->category = (object) [
             'id' => $data['cat_id'],
             'name' => $data['cat_name']
         ];
+
         $pet->name = $data['name'];
-        $pet->photoUrls = [$data['photo_url']];
-        $pet->tags = [(object) [
-            'id' => $data['tags_id'],
-            'name' => $data['tags_name']
-        ]];
+
+        if (isset($data['photo_url'])) {
+        $photo_array = [];
+        foreach ($data['photo_url'] as $one_photo_url) {
+            array_push($photo_array, $one_photo_url);
+        }
+        $pet->photoUrls = $photo_array;
+        }
+
+        if (isset($data['tags_name'])) {
+            $tags_array = [];
+
+            for ($i=0; $i < count($data['tags_id']); $i++) {
+                if($data['tags_name'][$i] != null)
+                {
+                array_push($tags_array,(object) [
+                    'id' => $data['tags_id'][$i],
+                    'name' => $data['tags_name'][$i]
+                ]);
+                }
+            }
+            $pet->tags = $tags_array;
+        }
+
         $pet->status = $data['status'];
 
         $response = Http::post(config('swagger.api.route') . 'pet', $pet->getAttributes());
@@ -90,16 +110,34 @@ class PetsRepository implements PetsRepositoryInterface
         $pet = new Pets;
 
         $pet->id = $data['id'];
+
         $pet->category = (object) [
             'id' => $data['cat_id'],
             'name' => $data['cat_name']
         ];
+
         $pet->name = $data['name'];
-        $pet->photoUrls = [$data['photo_url']];
-        $pet->tags = [(object) [
-            'id' => $data['tags_id'],
-            'name' => $data['tags_name']
-        ]];
+
+        if (isset($data['photo_url'])) {
+        $photo_array = [];
+        foreach ($data['photo_url'] as $one_photo_url) {
+            array_push($photo_array, $one_photo_url);
+        }
+        $pet->photoUrls = $photo_array;
+        }
+
+        if (isset($data['tags_name'])) {
+            $tags_array = [];
+
+            for ($i=0; $i < count($data['tags_id']); $i++) {
+                array_push($tags_array,(object) [
+                    'id' => $data['tags_id'][$i],
+                    'name' => $data['tags_name'][$i]
+                ]);
+            }
+            $pet->tags = $tags_array;
+        }
+
         $pet->status = $data['status'];
 
         $response = Http::put(config('swagger.api.route') . 'pet', $pet->getAttributes());
