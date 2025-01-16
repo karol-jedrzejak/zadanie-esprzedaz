@@ -36,18 +36,21 @@
                         </form>
                     </th>
             @if(isset($pet->category))
+            <th>
                 @if(isset($pet->category->id))
-                    <th>{{$pet->category->id}}</th>
-                @else
-                    <th></th>
+                    {{$pet->category->id}}
                 @endif
+                -
                 @if(isset($pet->category->name))
-                    <th>{{$pet->category->name}}</th>
-                @else
-                    <th></th>
+                    {{$pet->category->name}}
                 @endif
+                </th>
             @else
                     <th></th>
+            @endif
+            @if(isset($pet->name))
+                    <th>{{$pet->name}}</th>
+            @else
                     <th></th>
             @endif
                     <th>

@@ -13,7 +13,7 @@
     <body>
         <nav class="navbar navbar-expand-sm bg-body-tertiary">
             <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="collapse navbar-collapse d-flex" id="navbarNavDropdown">
                 <h1 class="nav-item me-3">PET</h1>
                 <ul class="navbar-nav">
                     <li class="nav-item me-3 ">
@@ -55,6 +55,7 @@
                     </form>
 
                 </ul>
+                <div class="ms-auto">Created by Karol Jędrzejak.</div>
 
                 @vite(['resources/js/urlchange.js'])
             </div>
