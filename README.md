@@ -5,6 +5,9 @@ An application created using the Laravel framework. Application is communicating
 ## After downloading
 
 npm instal
+
 composer install
+
 npm run build
+
 php artisan serve
